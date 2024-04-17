@@ -224,7 +224,7 @@ setState(prevState => ({
           e.preventDefault();
         }}
       >
-        <input
+        <input className="border-[5px] border-[red] border-solid"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
