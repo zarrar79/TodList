@@ -3,19 +3,13 @@ import './App.css'
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import _ from "lodash";
 import { v4 } from "uuid";
-const item = {
-  id: v4(),
-  name: "First task"
-};
-const item2 = {
-  id: v4(),
-  name: "Second task"
-};
+
 function App() {
+  // const[selectOpt, setOpt] = useState('To do')
   const [state, setState] = useState({
     todo: {
       title: "To do",
-      items: [item, item2]
+      items: []
     },
     inProgress: {
       title: "In Progress",
@@ -28,6 +22,7 @@ function App() {
   });
   const [input, setInput] = useState("");
   const handleDragEnd = ({ destination, source }) => {
+    console.log(destination,source);
     if (!destination) {
       return console.log("Not dropped inside dropable");
     }
@@ -39,7 +34,7 @@ function App() {
     }
     //Generating an copy of object
     //If we dont do this then we can't add item to other list
-    const itemCopy = { ...state[source.droppableId].items[source.index]};
+    const itemCopy = {...state[source.droppableId].items[source.index]};
     setState((prev) => {
       //Copying old state
       prev = { ...prev };
@@ -54,8 +49,163 @@ function App() {
       return prev;
     });
   };
+  const changeList = (value,index,title,status) => {
+    // Get the select element by ID
+  const selectElement = document.getElementById('mySelect');
+  // console.log(status);
+  // Get the selected option value
+  var selectedOptionValue = selectElement.value;
+  const nTask = {
+    id:v4(),
+    name : value,
+   state : status
+  };
+    console.log(index, value,title,"---->");
+    console.log(selectedOptionValue);
+    if(selectedOptionValue === "Progress"){
+    setState(prevState => ({
+      ...prevState,
+      inProgress: {
+        ...prevState.inProgress,
+        items: [...prevState.inProgress.items, nTask]
+      }
+    }));
+    if(title==='To do'){
+    // Define the index of the item you want to delete
+const indexToDelete = value; // For example, let's say you want to delete the first item
 
+// Create a copy of the todo items array
+const updatedTodoItems = [...state.todo.items];
+
+// Remove the item at the specified index
+updatedTodoItems.splice(indexToDelete, 1);
+
+// Update the state with the new array
+setState(prevState => ({
+  ...prevState,
+  todo: {
+    ...prevState.todo,
+    items: updatedTodoItems
+  }
+}));
+    }
+    if(title==='Completed'){
+    // Define the index of the item you want to delete
+const indexToDelete = value; // For example, let's say you want to delete the first item
+
+// Create a copy of the todo items array
+const updatedTodoItems = [...state.done.items];
+// Remove the item at the specified index
+updatedTodoItems.splice(indexToDelete, 1);
+
+// Update the state with the new array
+setState(prevState => ({
+  ...prevState,
+  done: {
+    ...prevState.done,
+    items: updatedTodoItems
+  }
+}));
+    }
+    console.log(selectedOptionValue, title,"---> check");
+  }
+    if(selectedOptionValue === "Todo"){
+    setState(prevState => ({
+      ...prevState,
+      todo: {
+        ...prevState.todo,
+        items: [...prevState.todo.items, nTask]
+      }
+    }));
+      if(title==='In Progress'){
+      // Define the index of the item you want to delete
+  const indexToDelete = value; // For example, let's say you want to delete the first item
+  // Create a copy of the todo items array
+  const updatedTodoItems = [...state.inProgress.items];
+  
+  // Remove the item at the specified index
+  updatedTodoItems.splice(indexToDelete, 1);
+  
+  // Update the state with the new array
+  setState(prevState =>({
+    ...prevState,
+    inProgress: {
+      ...prevState.inProgress,
+      items: updatedTodoItems
+    }
+  }));
+      }
+      if(title==='Completed'){
+      // Define the index of the item you want to delete
+  const indexToDelete = value; // For example, let's say you want to delete the first item
+  
+  // Create a copy of the todo items array
+  const updatedTodoItems = [...state.done.items];
+  
+  // Remove the item at the specified index
+  updatedTodoItems.splice(indexToDelete, 1);
+  
+  // Update the state with the new array
+  setState(prevState => ({
+    ...prevState,
+    done: {
+      ...prevState.done,
+      items: updatedTodoItems
+    }
+  }));
+      }
+  }
+    if(selectedOptionValue==="Completed"){
+    setState(prevState => ({
+      ...prevState,
+      done: {
+        ...prevState.done,
+        items: [...prevState.done.items, nTask]
+      }
+    }));
+    if(title==='To do'){
+      // Define the index of the item you want to delete
+  const indexToDelete = value; // For example, let's say you want to delete the first item
+  
+  // Create a copy of the todo items array
+  const updatedTodoItems = [...state.todo.items];
+  
+  // Remove the item at the specified index
+  updatedTodoItems.splice(indexToDelete, 1);
+  
+  // Update the state with the new array
+  setState(prevState => ({
+    ...prevState,
+    todo: {
+      ...prevState.todo,
+      items: updatedTodoItems
+    }
+  }));
+      }
+      if(title==='In Progress'){
+      // Define the index of the item you want to delete
+  const indexToDelete = value; // For example, let's say you want to delete the first item
+  
+  // Create a copy of the todo items array
+  const updatedTodoItems = [...state.inProgress.items];
+  
+  // Remove the item at the specified index
+  updatedTodoItems.splice(indexToDelete, 1);
+  
+  // Update the state with the new array
+  setState(prevState => ({
+    ...prevState,
+    inProgress: {
+      ...prevState.inProgress,
+      items: updatedTodoItems
+    }
+  }));
+      }
+  }
+  }
   const addItem = () => {
+    if(input.trim()==="")
+    return;
     setState((prev) => {
       return {
         ...prev,
@@ -90,29 +240,35 @@ function App() {
                 <Droppable droppableId={key}>
                   {(provided) => {
                     return (
-                      <div ref={provided.innerRef} className="droppable-col">
+                      <div ref = {provided.innerRef} className="droppable-col">
                         {data.items.map((el, index) =>{
                           return (
                             <Draggable
                               key={el.id}
                               index={index}
-                              draggableId={el.id}
-                              //rdnd uses this id to distinguish dragged item
-                            >
+                              draggableId={el.id}>
                               {(provided, snapshot) => {
                                 return (
                                   <div
                                     className={`item ${
                                       snapshot.isDragging && "dragging"
                                     }`}
-                                    //This ref is used for recognize to draggable item from DOM
+                                   
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
-                                    //This prop helps us to recognize, where we can hold item to drag
-                                    // If we add this to inner child of this div, then that we can drag div only by holding from that child
+                                   
                                     {...provided.dragHandleProps}
                                   >
+                                    <div>
                                     {el.name}
+                                    </div>
+                                    <div className="text-black">
+                                      <select onChange={(event)=>changeList(el.name,index,data.title,event.target.value)} id="mySelect">
+                                      <option value='Todo'>Todo</option>
+                                      <option value='Progress'>In Progress</option>
+                                      <option value='Completed'>Completed</option>
+                                      </select>
+                                      </div>
                                   </div>
                                 );
                               }}
