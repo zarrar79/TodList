@@ -89,7 +89,7 @@ function App() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         ></input>
-        <button className="bg-[#d271a6] p-[5.8px]" onClick={addItem}>Add</button>
+        <button className="bg-[#6363b3] text-[white] py-[5.8px] px-4" onClick={addItem}>Add</button>
         </div>
         </div>
       </form>
@@ -97,7 +97,7 @@ function App() {
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
             return (
-              <div key={key} className="column">
+              <div key={key} className="column border-[1px] border-[#e1d4d4] border-[solid]">
                 <div className='bg-[#5e89ca] text-center py-2 items-center flex justify-center'><h3>{data.title}</h3></div>
                 <Droppable droppableId={key}>
                   {(provided) => {
