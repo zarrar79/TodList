@@ -6,6 +6,7 @@ import { v4 } from "uuid";
 
 function App() {
   // const[selectOpt, setOpt] = useState('To do')
+  const [message,setMessage] = useState("");
   const [state, setState] = useState({
     todo: {
       title: "To do",
@@ -21,7 +22,7 @@ function App() {
     },
   });
   const [input, setInput] = useState("");
- console.log(state , "------>state")
+  console.log(state, "------>state");
   const handleDragEnd = ({ destination, source }) => {
     console.log(destination, source);
     if (!destination) {
@@ -51,6 +52,7 @@ function App() {
     });
   };
   const changeList = (taskIndex, sourceListKey, destinationListKey) => {
+    setMessage(destinationListKey);
     setState((prevState) => {
       const newState = { ...prevState };
       const taskToMove = newState[sourceListKey].items.splice(taskIndex, 1)[0];
@@ -79,20 +81,24 @@ function App() {
           e.preventDefault();
         }}
       >
+        <div className="flex justify-center mb-1 w-[100%] mt-4">
+        <div>
         <input
-          className="border-[5px] border-[red] border-solid"
+          className="border-[2px] border-solid px-1 py-1 border-[#0eb265] border-[solid]" placeholder="New Task"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         ></input>
-        <button onClick={addItem}>Add</button>
+        <button className="bg-[#d271a6] p-[5.8px]" onClick={addItem}>Add</button>
+        </div>
+        </div>
       </form>
       <div className="App">
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
             return (
               <div key={key} className="column">
-                <h3>{data.title}</h3>
+                <div className='bg-[#5e89ca] text-center py-2 items-center flex justify-center'><h3>{data.title}</h3></div>
                 <Droppable droppableId={key}>
                   {(provided) => {
                     return (

@@ -13,21 +13,19 @@
 }
 
 .droppable-col {
+  margin-top:5px;
   width: 100%;
-  background-color: gray;
   padding: 10px 10px 0 10px;
-  border-radius: 7px;
   display: flex;
   flex-direction: column;
 }
 
 .item {
   margin-bottom: 10px;
-  background-color: gray;
+  background-color: #0eb265;
   color: white;
   border: 1px solid white;
-  padding: 5px;
-  border-radius: 7px;
+  padding: 10px;
 }
 
 .item.dragging {
