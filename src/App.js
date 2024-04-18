@@ -123,6 +123,7 @@ function App() {
                                     <div>{el.name}</div>
                                     <div className="text-black">
                                       <select
+                                      value={key}
                                         onChange={(e) =>
                                           changeList(index, key, e.target.value)
                                         }
@@ -134,7 +135,6 @@ function App() {
                                                 key={destinationIndex}
                                                 value={destinationList}
                                               >
-                                                
                                                 {state[destinationList].title}
                                               </option>
                                             )
